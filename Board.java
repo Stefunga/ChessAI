@@ -4,6 +4,7 @@ public class Board {
 	//Creating arrays to make board(A-H, 1-8)
 
 	Piece[][] a;
+	int value;
 	
 	public Board(){
 		a=new Piece[7][7];
@@ -19,11 +20,11 @@ public class Board {
 			Piece c= new Piece();
 			c.CreatePawn(false);
 			a[x][1]=c;
-			//System.out.printf("Pawn made at [%d][1]%n",x);
+			//Pawn made at [%d][1]
 			Piece c2= new Piece();
 			c2.CreatePawn(true);
 			a[x][6]=c2;
-			//System.out.printf("Pawn made at [%d][6]%n",x);
+			//Pawn made at [%d][6]
 		}
 		//create and place rook pieces
 		Piece r= new Piece();
@@ -80,7 +81,7 @@ public class Board {
 		a[4][7]=K2;	
 	}
 	
-	public void printBoard()
+	public void printBoard()//a way to visualize the chess board, iterates through the matrix returns contents, with some extra visual help.
 	{
 		for(int x=7; x>=0; x--)
 		{
@@ -99,11 +100,11 @@ public class Board {
 				{
 					if(a[x][y].getColor()==true)
 					{
-						System.out.printf("|%s:W|", a[x][y].getType());
+						System.out.printf("|%s:W|", a[x][y].getType());//prints out piece type and its color(WHITE)
 					}
 					if(a[x][y].getColor()==false)
 					{
-						System.out.printf("|%s:B|", a[x][y].getType());
+						System.out.printf("|%s:B|", a[x][y].getType());//prints out piece type and its color(BLACK)
 					}
 				}
 			}
@@ -111,12 +112,25 @@ public class Board {
 		}
 	}
 	
-	public Piece getPiece(int x, int z)
+	public Piece getPiece(int x, int z)//returns piece from spot on the matrix
 	{
 		return a[x][z];
 	}
-	public void setPiece(int x, int z, Piece w)
+	public void setPiece(int x, int z, Piece w)//sets piece for a spot on the matrix. 
 	{
 		a[x][z]=w;
+	}
+	public int getValue()//returns piece from spot on the matrix
+	{
+		return value;
+	}
+	public void setValue(int valuea)//sets piece for a spot on the matrix. 
+	{
+		value=valuea;
+	}
+	public void copyBoard(Board b)//need to review if this returns entirely new object or if i need to read in.
+	{
+		Board out=new Board();
+		out=b;
 	}
 }
