@@ -34,6 +34,7 @@ public class Game {
 				{
 					System.out.println("Invalid piece try again!");
 					playGame(white, b);
+					return;
 				}
 				System.out.println("Enter piece destination:ex 0 1 ");
 				int destLocX=in.nextInt();
@@ -44,17 +45,28 @@ public class Game {
 				{
 					System.out.printf("%nMove was not made due to invalid input");
 					playGame(true,b);
+					return;
 				}
 				else
 				{
 					System.out.printf("%nMove was made next player");
+				//	System.out.printf("%nThe board score:%s",check.getValue());
 					playGame(false,b);
+					return;
 				}	
 			}
 			if(white==false)
 			{
 				System.out.printf("%nBlack Player make move%n");
 				b.printBoard();
+				MinMax a=new MinMax();
+				a.MiniMax(3,false, b,true,20);
+				a.getFinalBoard();
+				//a.getFinalBoard().printBoard();
+				//a.getFinalBoard().printBoard();
+				playGame(true,a.getFinalBoard());
+				return;
+				/**
 				System.out.printf("%nEnter piece initial location:ex 0 1 ");
 				int initLocX=in.nextInt();
 				int initLocY=in.nextInt();
@@ -78,6 +90,7 @@ public class Game {
 					System.out.printf("%nMove was made next player");
 					playGame(true,b);
 				}
+				*/
 			}
 		}
 	}
