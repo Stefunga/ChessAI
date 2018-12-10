@@ -11,7 +11,29 @@ public class Board {
 		createBoard();
 		
 	}
-
+	public Board boardDuplicate()
+	{
+		Board copy=new Board();
+		for(int x=0; x<8;x++)
+		{
+			for(int y=0; y<8; y++)
+			{
+				if(getPiece(x,y)!=null)
+				{
+				Piece next=new Piece();
+				next.setType(getPiece(x,y).getType());
+				next.setterFirst(getPiece(x,y).getFirst());
+				next.setColor(getPiece(x,y).getColor());
+				copy.setPiece(x, y, next);
+				}
+				else
+				{
+					copy.setPiece(x, y, null);
+				}
+			}
+		}
+		return copy;
+	}
 	public void createBoard(){
 		a= new Piece[8][8];
 		//For loop to create and place both black and white pawns
