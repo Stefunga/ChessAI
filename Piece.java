@@ -49,6 +49,9 @@ public class Piece {
 		//Bishop b = new Bishop(black);
 		
 	}
+	public void setColor(Boolean b) {
+		black=b;
+	}
 	public Boolean getColor(){
 		return black;
 	}
@@ -60,6 +63,10 @@ public class Piece {
 	{
 			first=false;
 	}
+	public void setterFirst(Boolean f)
+	{
+			first=f;
+	}
 	public String getType()
 	{
 		return type;
@@ -70,3 +77,4 @@ public class Piece {
 	}
 
 }
+
