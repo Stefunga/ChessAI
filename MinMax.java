@@ -3,53 +3,125 @@ package chess;
 import java.util.Random;
 
 public class MinMax {
+Board FinalBoard;
 int checker;
-int branches;
+int branches=20;
 boolean player;
 int holder=0;
 Board Final=null;
-int max=0;
-int min=0;
-Boolean MinMax=true;
-public MinMax (int levels, boolean playera, Board boarda) {
-		player=playera;
-		int value;
-		
+int max=-9999;
+int min=-9999;
+//Boolean MinMax=false;]
+public MinMax()
+{
+	
+}
+public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, int branches) {
 		if(levels==0)
 		{
-			value=valueFunction(boarda);
-			boarda.setValue(value);
-			holder=value;
+		//value=valueFunction(boarda);
+		//boarda.setValue(value);
+		moveVerify a=new moveVerify();
+		//a.valueFunction(MinMax, boarda);
+		holder=a.valueFunction(MinMax, boarda);
+		boarda.printBoard();
+		System.out.printf("%nSet first"+holder);
+
+		return;
 		}
-    		for(int x=0; branches>x; branches--)
+		//player=playera;
+		//int value;
+		//System.out.printf("The Piece checker:"+boarda.getPiece(0, 1).getType());
+		//Board Tree=new Board();
+		//Tree=generateMove(boarda,player);
+		//FinalBoard=Tree;
+		//System.out.printf("%nThe board score:  "+FinalBoard.getValue());
+		//return;
+		int z=branches;	
+		int y=levels;
+    		for(int x=0; z>x; z--)
     		{
     			Board Tree=new Board();
     			boolean check=false;
-    			if(levels%2!=0)
+    			if(MinMax)
     			{
-    				Tree=generateMove(boarda,player);//need to change L and B to make it work correctly(rand num)
+    				System.out.printf("%nhere:"+holder);
+    				
+    				Tree=generateMove(boarda.boardDuplicate(),player);//need to change L and B to make it work correctly(rand num)
+    				//Tree.printBoard();
+    				 MiniMax(levels-1,!playera,Tree.boardDuplicate(),!MinMax,branches);
+    				// System.out.printf("%nREJECT");
+    				if(max==-9999||(holder<max))
+        			{
+        				max=holder;
+        				System.out.printf("%nMAX:"+holder);
+        				Tree.setValue(holder);
+        				//MinMax=false;
+        				if(levels==3)
+            			{
+        					System.out.printf("%n in this stuff");
+        					if(FinalBoard==null)
+        					{
+        						System.out.printf("%n in this stuff2");
+        						FinalBoard=Tree;
+        						//return;
+        					}
+        					if(FinalBoard !=null && FinalBoard.getValue()<Tree.getValue())
+        					{
+        						FinalBoard=Tree;
+        						System.out.printf("%nANOTHER THING");
+        						//return;
+        					}
+            			}
+        				//return;
+        			}
     			}
     			else
     			{
-    				Tree=generateMove(boarda,!player);//need to change L and B to make it work correctly(rand num)
+    				Tree=generateMove(boarda.boardDuplicate(),!player);//need to change L and B to make it work correctly(rand num)
+    				//Tree.printBoard();
+    				 MiniMax(levels-1,!playera,Tree.boardDuplicate(),!MinMax,branches);
+    				
+    				if(min==-9999||(holder>min))
+        			{
+        				min=holder;
+        				System.out.printf("%nMIN:"+holder);
+        				Tree.setValue(holder);
+        				//MinMax=true;
+        				if(levels==3)
+            			{
+        					System.out.printf("%n in this stuff");
+        					if(FinalBoard==null)
+        					{
+        						System.out.printf("%n in this stuff2");
+        						FinalBoard=Tree;
+        						//return;
+        					}
+        					if(FinalBoard !=null && FinalBoard.getValue()>Tree.getValue())
+        					{
+        						FinalBoard=Tree;
+        						System.out.printf("%nANOTHER THING");
+        						//return;
+        					}
+            			}
+        				//return;
+        			}
     			}
-    			Tree=generateMove(boarda,player);//need to change L and B to make it work correctly(rand num)
-    			MinMax r= new MinMax(levels-1,playera,Tree);
+    			}
+    		min=-9999;
+    		max=-9999;
     			
-    			if((max==0||holder>max)&&MinMax)
-    			{
-    				max=holder;
-    				boarda.setValue(holder);
-    			}
-    			if((min==0||holder<min)&&MinMax)
-    			{
-    				min=holder;
-    				boarda.setValue(holder);
-    			}
     		}
-    		min=0;
-    		max=0;
-    }
+    		
+    		
+    		//min=0;
+    		//max=0;
+    		
+    
+	public Board getFinalBoard()
+	{
+		return FinalBoard;
+	}
     public Board generateMove(Board bMax, boolean player) {
     				Random move=new Random();
     				moveVerify verified;
@@ -60,7 +132,13 @@ public MinMax (int levels, boolean playera, Board boarda) {
 					l=move.nextInt(7);
 					w=move.nextInt(7);
 				}
-				String piece=bMax.getPiece(l,w).getType();
+				if(bMax.getPiece(l, w).getColor()!=player)
+				{
+					generateMove(bMax,player);
+					return bMax;
+				}
+				String piece="P";
+						//bMax.getPiece(l,w).getType();
     				switch(piece) {
 					case"P":
 						int moved=move.nextInt(3);
@@ -68,28 +146,31 @@ public MinMax (int levels, boolean playera, Board boarda) {
 						{
 							if(player==true)
 							{
+								//System.out.printf("This is a white pawn");
 								verified=new moveVerify(l,w,l,w+1,player,bMax);
 								if(verified.getValid()==false)
 								{
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w+1,setter);
-								bMax.setPiece(l, w, null);
+								
+							//	bMax.setPiece(l, w+1,bMax.getPiece(l, w));
+							//	bMax.setPiece(l, w, null);
 								break;
 							}
 							if(player==false)
 							{	
-								verified=new moveVerify(l,w,l,w-2,player, bMax);
+								//System.out.printf("%nThis is a black pawn");
+								verified=new moveVerify(l,w,l,w+2,player, bMax);
 								if(verified.getValid()!=true)
 								{
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w-2, setter);
-								bMax.setPiece(l, w, null);
+								//Piece setter=bMax.getPiece(l, w);
+								//bMax.setPiece(l, w+2, bMax.getPiece(l, w));
+								//System.out.printf("The Piece checker:"+bMax.getPiece(l, w).getType());
+								//bMax.setPiece(l, w, null);
 								break;
 							}
 							
@@ -98,28 +179,33 @@ public MinMax (int levels, boolean playera, Board boarda) {
 						{
 							if(player==true)
 							{
-								verified=new moveVerify(l,w,l,w+1,player, bMax);
-								if(verified.getValid()!=true)
-								{
-									generateMove(bMax,player);
-									break;
-								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w+1, setter);
-								bMax.setPiece(l, w, null);
-								break;
-							}
-							if(player==false)
-							{
 								verified=new moveVerify(l,w,l,w-1,player, bMax);
 								if(verified.getValid()!=true)
 								{
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w-1, setter);
-								bMax.setPiece(l, w, null);
+								//Piece setter=bMax.getPiece(l, w);
+								//bMax.setPiece(l, w-1, bMax.getPiece(l, w));
+								//bMax.setPiece(l, w, null);
+								break;
+							}
+							if(player==false)
+							{
+								//System.out.printf("%nThis is a black pawn1");
+								verified=new moveVerify(l,w,l,w+1,player, bMax);
+								
+								if(verified.getValid()!=true)
+								{
+								//	System.out.printf("%nThis is a black pawn");
+									generateMove(bMax,player);
+									break;
+								}
+								//Piece setter=bMax.getPiece(l, w);
+								//bMax.setPiece(l, w+1, bMax.getPiece(l, w));
+								//System.out.printf("The Piece checker:"+bMax.getPiece(l, w).getType());
+								//System.out.printf("%nSET1"+setter.getType());
+								//bMax.setPiece(l, w, null);
 								break;
 							}
 						}
@@ -133,22 +219,25 @@ public MinMax (int levels, boolean playera, Board boarda) {
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l+1, w+1, setter);
-								bMax.setPiece(l, w, null);
+								//Piece setter=bMax.getPiece(l, w);
+								//bMax.setPiece(l+1, w+1, bMax.getPiece(l, w));
+								//bMax.setPiece(l, w, null);
 								break;
 							}
 							if(player==false)
 							{
+								//System.out.printf("%nThis is a black pawn2");
 								verified=new moveVerify(l,w,l-1,w+1,player, bMax);
 								if(verified.getValid()!=true)
 								{
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l-1, w+1, setter);
-								bMax.setPiece(l, w, null);
+								//Piece setter=bMax.getPiece(l, w);
+								//bMax.setPiece(l-1, w+1, bMax.getPiece(l, w));
+								//System.out.printf("%nSET2");
+								//System.out.printf("The Piece checker:"+bMax.getPiece(l, w).getType());
+								//bMax.setPiece(l, w, null);
 								break;
 							}
 						}
@@ -162,26 +251,34 @@ public MinMax (int levels, boolean playera, Board boarda) {
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l+1, w-1, setter);
-								bMax.setPiece(l, w, null);
+								//Piece setter=bMax.getPiece(l, w);
+								//bMax.setPiece(l+1, w-1, bMax.getPiece(l, w));
+								//System.out.printf("%nSET3");
+								//System.out.printf("The Piece checker:"+bMax.getPiece(l, w).getType());
+								//bMax.setPiece(l, w, null);
 								break;
 							}
 							if(player==false)
 							{
+								//System.out.printf("%nThis is a black pawn3");
 								verified=new moveVerify(l,w,l-1,w-1,player, bMax);
 								if(verified.getValid()!=true)
 								{
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l-1, w-1, setter);
-								bMax.setPiece(l, w, null);
+								//Piece setter=bMax.getPiece(l, w);
+								//System.out.printf("The Piece checker:"+bMax.getPiece(l, w).getType());
+								//bMax.setPiece(l-1, w-1, bMax.getPiece(l, w));
+								//System.out.printf("%nSET3");
+							//	System.out.printf("The Piece checker:"+bMax.getPiece(0, 1).getType());
+								//bMax.setPiece(l, w, null);
 								break;
 							}	
+							break;
 						}
-						break;
+					break;
+					
 					case"K":
 						moved=move.nextInt(7);
 						if(moved==0) {
@@ -196,9 +293,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w+1, setter);
-								bMax.setPiece(l, w, null);
+						//		Piece setter=bMax.getPiece(l, w);
+						//		bMax.setPiece(l, w+1, setter);
+						//		bMax.setPiece(l, w, null);
 								break;
 				
 						}
@@ -214,9 +311,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l, w-1, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l, w-1, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==2) {
@@ -231,13 +328,13 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+1, w, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+1, w, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==3) {
-							if(l+1>7 || l+1<0)
+							if(l-1<0)
 							{
 								generateMove(bMax,player);
 								break;
@@ -248,9 +345,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-1, w, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-1, w, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==4) {
@@ -265,9 +362,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+1, w+1, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+1, w+1, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==5) {
@@ -282,9 +379,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-1, w-1, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-1, w-1, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==6) {
@@ -299,9 +396,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+1, w-1, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+1, w-1, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==7) {
@@ -316,9 +413,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-1, w+1, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-1, w+1, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}	
 						break;
@@ -337,9 +434,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w+distance, setter);
-								bMax.setPiece(l, w, null);
+						//		Piece setter=bMax.getPiece(l, w);
+						//		bMax.setPiece(l, w+distance, setter);
+						//		bMax.setPiece(l, w, null);
 								break;
 						}
 						if(moved==1) {
@@ -354,9 +451,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l, w-distance, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l, w-distance, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==2) {
@@ -371,9 +468,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+distance, w, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+distance, w, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==3) {
@@ -388,9 +485,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-distance, w, setter);
-							bMax.setPiece(l, w, null);
+						///	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-distance, w, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==4) {
@@ -405,9 +502,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+distance, w+distance, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+distance, w+distance, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==5) {
@@ -422,9 +519,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-distance, w-distance, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-distance, w-distance, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==6) {
@@ -439,9 +536,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+distance, w-distance, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+distance, w-distance, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==7) {
@@ -456,9 +553,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-distance, w+distance, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-distance, w+distance, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}	
 						break;
@@ -477,9 +574,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 									generateMove(bMax,player);
 									break;
 								}
-								Piece setter=bMax.getPiece(l, w);
-								bMax.setPiece(l, w+distance, setter);
-								bMax.setPiece(l, w, null);
+						//		Piece setter=bMax.getPiece(l, w);
+						//		bMax.setPiece(l, w+distance, setter);
+						//		bMax.setPiece(l, w, null);
 								break;
 						}
 						if(moved==1) {
@@ -494,9 +591,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l, w-distance, setter);
-							bMax.setPiece(l, w, null);
+						//  Piece setter=bMax.getPiece(l, w);
+						///	bMax.setPiece(l, w-distance, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==2) {
@@ -511,9 +608,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+distance, w, setter);
-							bMax.setPiece(l, w, null);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+distance, w, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==3) {
@@ -528,12 +625,13 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-distance, w, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l-distance, w, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
-						
+						generateMove(bMax,player);
 						break;
 					case"k":
 						moved=move.nextInt(7);
@@ -549,9 +647,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+2, w+1, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+						//	Piece setter=bMax.getPiece(l, w);
+						//	bMax.setPiece(l+2, w+1, setter);
+						//	bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==1) {
@@ -566,9 +665,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+2, w-1, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l+2, w-1, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==2) {
@@ -583,9 +683,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-2, w+1, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l-2, w+1, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==3) {
@@ -600,9 +701,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+2, w-1, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l+2, w-1, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==4) {
@@ -617,9 +719,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+1, w+2, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l+1, w+2, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==5) {
@@ -634,9 +737,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+1, w-2, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l+1, w-2, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==6) {
@@ -651,9 +755,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-1, w+2, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l-1, w+2, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==7) {
@@ -668,12 +773,12 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-1, w-2, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l-1, w-2, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
-						break;
 					case"B":
 						distance=move.nextInt(6);
 						moved=move.nextInt(3);
@@ -689,9 +794,9 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+distance, w+distance, setter);
-							bMax.setPiece(l, w, null);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l+distance, w+distance, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==1) {
@@ -706,9 +811,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-distance, w-distance, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l-distance, w-distance, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==2) {
@@ -723,9 +829,10 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l+distance, w-distance, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l+distance, w-distance, setter);
+							//bMax.setPiece(l, w, null);
 							break;
 						}
 						if(moved==3) {
@@ -740,37 +847,16 @@ public MinMax (int levels, boolean playera, Board boarda) {
 								generateMove(bMax,player);
 								break;
 							}
-							Piece setter=bMax.getPiece(l, w);
-							bMax.setPiece(l-distance, w+distance, setter);
-							bMax.setPiece(l, w, null);
+							generateMove(bMax,player);
+							//Piece setter=bMax.getPiece(l, w);
+							//bMax.setPiece(l-distance, w+distance, setter);
+							//bMax.setPiece(l, w, null);
 							break;
-						}	
-					}
+						}
+						break;
+							
+    				}
 					return bMax;
-					
-			
+	
     }
-    public void max(int max, int check) {
-    		if(max<check)
-    		{
-    			max=check;
-    		}
-    }
-    public void min(int min, int check) {
-    		if(min<check)
-    		{
-    			min=check;
-    		}
-    }
-    /*
-     * need to incorporate a function that values the different variations of the board
-     * might connect to DB with stored boards with assigned values
-     */
-    public int valueFunction(Board b) {
-	int whatever=0;
-    	return whatever;
-    	
-    }
-    
-
 }
