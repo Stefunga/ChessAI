@@ -21,7 +21,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 		moveVerify a=new moveVerify();
 		holder=a.valueFunction(MinMax, boarda);
 		boarda.printBoard();
-		System.out.printf("%nSet first"+holder);
+		System.out.printf("%nSet first%n");
 
 		return;
 		}
@@ -89,9 +89,10 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 	{
 		return FinalBoard;
 	}
-    public Board generateMove(Board bMax, boolean player) {
-    				Random move=new Random();
-    				moveVerify verified;
+    public static Board generateMove(Board bMax, boolean player) {
+    			
+    			Random move=new Random();
+    			moveVerify verified;
 				int l=move.nextInt(7);
 				int w=move.nextInt(7);
 				while(bMax.getPiece(l, w)==null)
@@ -104,7 +105,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 					generateMove(bMax,player);
 					return bMax;
 				}
-				String piece="P";
+				String piece=(bMax.getPiece(l, w)).getType();
     				switch(piece) {
 					case"P":
 						int moved=move.nextInt(3);
