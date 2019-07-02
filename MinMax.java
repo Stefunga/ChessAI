@@ -91,9 +91,14 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 	}
     public static Board generateMove(Board bMax, boolean player,int count) {
     			count = count+1;
-    			if(count > 500)
+    			if(count > 500 && player==false)
     			{
-    				System.out.println("CheckMate");
+    				System.out.printf("%n*********%n");
+    				System.out.printf("%nCheckMate%n");
+    				System.out.printf("%n*********%n");
+
+    				Board newGame = new Board();
+    				Game test = new Game();
     				return bMax;
     			}
     			Random move=new Random();
