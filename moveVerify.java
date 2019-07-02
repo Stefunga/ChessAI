@@ -385,7 +385,7 @@ public class moveVerify {
 				{
 					if(check<0 || check>7 || e<0 || e>7 )
 					{
-						break;
+						return false;
 					}
 					if(b.getPiece(e, check)!=null)
 					{
