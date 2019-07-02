@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
@@ -26,9 +27,23 @@ public class Game {
 				System.out.printf("%nWhite Player make move%n");
 				b.printBoard();
 				System.out.printf("%nEnter piece initial location:ex 0 1 ");
-				int initLocX=in.nextInt();
-				int initLocY=in.nextInt();
-				
+				int initLocX=0;
+				int initLocY=0;
+				int ch1;
+		        try {
+		        	initLocX=in.nextInt();
+					initLocY=in.nextInt();
+		        } catch (InputMismatchException e) {
+					System.out.printf("%nPlease enter int%n");
+					playGame(true,b);
+		        }
+
+				if(initLocX>8 || initLocY>8 || initLocX<0 || initLocY<0 )
+				{
+					System.out.printf("%nMove was not made due to invalid input");
+					playGame(true,b);
+					return;
+				}
 				
 				if(b.getPiece(initLocX, initLocY)==null||b.getPiece(initLocX, initLocY).getColor()!=true)
 				{
