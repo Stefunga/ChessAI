@@ -23,7 +23,7 @@ public class Game {
 			if(white==true)
 			{
 			
-				System.out.println("White Player make move");
+				System.out.printf("%nWhite Player make move%n");
 				b.printBoard();
 				System.out.printf("%nEnter piece initial location:ex 0 1 ");
 				int initLocX=in.nextInt();
