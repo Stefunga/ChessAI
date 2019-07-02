@@ -153,10 +153,13 @@ public class moveVerify {
 				if(check(true, b))
 				{
 					White_inCheckScore=50;
+					checkMate(true, b);
+					
 				}	
 				if(check(false, b))
 				{
 					Black_inCheckScore=50;
+					checkMate(false, b);
 				}
 				
 				if(p)
@@ -171,9 +174,23 @@ public class moveVerify {
 			    	b.setValue(value);
 			    	return value;
 			    }
-		public boolean checkMate()
+		public void checkMate(Boolean color,Board b)
 		{
-			return checkM;
+			System.out.printf("%nCheckWE!");
+			int checkMateDone=0;
+			Board butt=b.boardDuplicate();
+			boolean color2 = color;
+			while(check(!color, butt))	
+			{
+				System.out.printf("%nCheckret!");
+				butt = MinMax.generateMove(b.boardDuplicate(),!color);
+				checkMateDone++;
+				if(checkMateDone==100)
+				{
+					System.out.printf("%nCheckMate!");
+				}
+				System.out.printf("%nbeep!");
+			}
 		}
 		public Board changedBoard()
 		{
@@ -409,16 +426,16 @@ public class moveVerify {
 				}
 				check=a;
 				int check2=c;
-				if(check-2<8&&check2+1<8)
+				if(check-2<8 && check+2<8 && check2+1<8 && check-2>=0 && check2+1>=0)
 				{
-				if(b.getPiece(check+2, check2+1)!=null)
-				{
-					if(b.getPiece(check+2, check2+1).getColor()!=color&&b.getPiece(check+2, check2+1).getType()=="k")
+					if(b.getPiece(check+2, check2+1)!=null)
 					{
-						//System.out.printf("%nFound knight in check");
-						return true;
+						if(b.getPiece(check+2, check2+1).getColor()!=color&&b.getPiece(check+2, check2+1).getType()=="k")
+						{
+							//System.out.printf("%nFound knight in check");
+							return true;
+						}
 					}
-				}
 				}
 				if(check+2<8&check2-1>=0)
 				{
@@ -508,10 +525,7 @@ public class moveVerify {
 		//provides universal validation for moves, non unique to pieces, and finalizes 
 		public void Moved(int i, int j, int x, int z, Board a)
 		{	
-			if (checkMate==100)
-			{
-				checkM=true;
-			}
+			
 			//if another piece occupies this square check the color and capture if allowed 
 			if(x<8 && z<8 && x>=0 && z>=0 && a.getPiece(x, z)!=null)
 			{
@@ -531,6 +545,7 @@ public class moveVerify {
 					a.setPiece(i, j, null);
 					if(check(white,a)==true)
 					{
+//						checkMate(white, a);
 				//		System.out.printf("Moving into check or not out");
 					//	System.out.printf("%n IN CHECK BITCHa");
 						valid = false;
@@ -564,6 +579,7 @@ public class moveVerify {
 				a.setPiece(i, j, null);
 				if(check(white,a)==true)
 				{
+//					checkMate(white, a);
 					//System.out.printf("%n IN CHECK BITCHb");
 			//		System.out.printf("Moving into check or not out");
 					valid = false;
@@ -854,10 +870,17 @@ public class moveVerify {
 					int check=j-1;
 					for(int p=i-1; p>x;p--)
 					{
-						//System.out.printf("%nThe inner shitee1");
+						if(check>7 || check<0 || p>7 || p<0)
+						{
+							System.out.printf("Non-Valid Move off board");
+							valid=false;
+							return;
+							//Valid(out, valid);
+						}
+						System.out.printf("%nThe inner shitee1");
 						if(b.getPiece(p, check)!=null)//need to make getter setter to access board
 						{
-							//System.out.printf("Non-Valid Move Piece in the way");
+							System.out.printf("Non-Valid Move Piece in the way");
 							valid=false;
 							return;
 							//Valid(out, valid);
@@ -982,6 +1005,13 @@ public class moveVerify {
 					int check=j-1;
 					for(int p=i-1; p>x;p--)
 					{
+						if(check>7 || check<0 || p>7 || p<0)
+						{
+							System.out.printf("Non-Valid Move Piece in the way");
+							valid=false;
+							return;
+							//Valid(out, valid);
+						}
 						//System.out.printf("%nThe inner shitee1");
 						if(b.getPiece(p, check)!=null)//need to make getter setter to access board
 						{
@@ -1065,92 +1095,62 @@ public class moveVerify {
 				{
 					if(b.getPiece(i, p)!=null)
 					{
-					//	System.out.printf("Non-Valid Move Piece in the way");
 						valid=false;
 						return;
-						//Valid(out, valid);
-						//break;
 					}
 				}
 				for(int p=i; p<z;p++)
 				{
 					if(b.getPiece(p, j)!=null)
 					{
-					//	System.out.printf("Non-Valid Move Piece in the way");
 						valid=false;
 						return;
-						//Valid(out, valid);
-						//break;
 					}
 				}
 				
-			//System.out.printf("Valid Move3");
 			Moved(i,j,x,z,b);
 			return;
 		}
-			//valid=false;
 			valid=false;
 			return;
 			}
-			//System.out.printf("balh");
 			if(i-x!=0 && j-z==0)
 			{
-				//System.out.printf("%n aaabbb");
 				for(int p=i+1; p<x;p++)
 				{
 					if(b.getPiece(p, j)!=null)
 					{
-					//	System.out.printf("Non-Valid Move Piece in the way1");
 						valid=false;
 						return;
-						
-						//Valid(out, valid);
-						//break;
 					}
 				}
-				//System.out.printf("%nValid Move");
 				Moved(i,j,x,z,b);
 				return;
 				
 			}
 			if(i-x==0 && j-z<0)
 				{
-				//System.out.printf("%n aaabbb1");
 				for(int p=j+1; p<z;p++)
 				{
 					if(b.getPiece(i, p)!=null)
 					{
-						//System.out.printf("Non-Valid Move Piece in the way3");
 						valid=false;
 						return;
-						//break;
-						//Valid(out, valid);
-						//break;
 					}
 				}
-				
-					//System.out.printf("%nValid Move");
 					Moved(i,j,x,z,b);
 					return;
 				}
 			if(i-x==0 && j-z>0)
-			{
-		//	System.out.printf("%n aaabbb3");
-				
+			{				
 			for(int p=j-1; p>z;p--)
 			{
-				//System.out.printf("%npoop");
 				if(b.getPiece(i, p)!=null)
 				{
-				//	System.out.printf("Non-Valid Move Piece in the way2");
 					valid=false;
 					return;
-					//break;
-					//Valid(out, valid);
-					//break;
 				}
 			}
-				//System.out.printf("%nValid Move");
 				Moved(i,j,x,z,b);
 				return;
 			}
@@ -1163,18 +1163,14 @@ public class moveVerify {
 		
 			if((i-x==1 && j-z==0) || (i-x==-1 && j-z==0) || (i-x==0 && j-z==1) || (i-x==0 && j-z==-1)|| (i-x==1 && j-z==1)|| (i-x==1 && j-z==-1)|| (i-x==-1 && j-z==1)|| (i-x==-1 && j-z==-1))
 			{
-				//System.out.printf("Valid Move KING");
 				Moved(i,j,x,z,b);
 				return;
 				
 			}
 			else 
-				//System.out.printf("Non-Valid");
 				valid=false;
 				return;
-				//Valid(out, valid);	
 		}
 		
 		
 }
-
