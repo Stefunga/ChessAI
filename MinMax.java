@@ -20,8 +20,8 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 		{
 		moveVerify a=new moveVerify();
 		holder=a.valueFunction(MinMax, boarda);
-		boarda.printBoard();
-		System.out.printf("%nSet first%n");
+//		boarda.printBoard();
+//		System.out.printf("%nSet first%n");
 
 		return;
 		}
@@ -33,12 +33,12 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
     			boolean check=false;
     			if(MinMax)
     			{
-    				Tree=generateMove(boarda.boardDuplicate(),player);
+    				Tree=generateMove(boarda.boardDuplicate(),player,0);
     				 MiniMax(levels-1,!playera,Tree.boardDuplicate(),!MinMax,branches);
     				if(max==-9999||(holder<max))
         			{
         				max=holder;
-        				System.out.printf("%nMAX:"+holder);
+//        				System.out.printf("%nMAX:"+holder);
         				Tree.setValue(holder);
         				if(levels==3)
             			{
@@ -55,7 +55,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
     			}
     			else
     			{
-    				Tree=generateMove(boarda.boardDuplicate(),!player);
+    				Tree=generateMove(boarda.boardDuplicate(),!player,0);
     				 MiniMax(levels-1,!playera,Tree.boardDuplicate(),!MinMax,branches);
     				
     				if(min==-9999||(holder>min))
@@ -89,8 +89,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 	{
 		return FinalBoard;
 	}
-    public static Board generateMove(Board bMax, boolean player) {
-    			
+    public static Board generateMove(Board bMax, boolean player,int count) {
+    			count = count+1;
+    			if(count > 500)
+    			{
+    				System.out.println("CheckMate");
+    				return bMax;
+    			}
     			Random move=new Random();
     			moveVerify verified;
 				int l=move.nextInt(7);
@@ -102,7 +107,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 				}
 				if(bMax.getPiece(l, w).getColor()!=player)
 				{
-					generateMove(bMax,player);
+					generateMove(bMax,player,count++);
 					return bMax;
 				}
 				String piece=(bMax.getPiece(l, w)).getType();
@@ -116,7 +121,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l,w+1,player,bMax);
 								if(verified.getValid()==false)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 								break;
@@ -127,7 +132,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l,w+2,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -142,7 +147,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l,w-1,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -156,7 +161,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								if(verified.getValid()!=true)
 								{
 
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -170,7 +175,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l+1,w+1,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -181,7 +186,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l-1,w+1,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -195,7 +200,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l+1,w-1,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -207,7 +212,7 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 								verified=new moveVerify(l,w,l-1,w-1,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -222,13 +227,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==0) {
 								if(w+1>7)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 								verified=new moveVerify(l,w,l,w+1,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -238,13 +243,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==1) {
 							if(w-1>7 || w-1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l,w-1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -253,13 +258,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==2) {
 							if(l+1>7 || l+1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+1,w,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -268,13 +273,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==3) {
 							if(l-1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-1,w,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -283,13 +288,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==4) {
 							if(w+1>7 || w+1<0 || l+1>7 || l+1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+1,w+1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -298,13 +303,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==5) {
 							if(w-1>7 || w-1<0 || l-1>7 || l-1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-1,w-1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -313,13 +318,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==6) {
 							if(w-1>7 || w-1<0 || l+1>7 || l+1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+1,w-1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 		
@@ -328,13 +333,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==7) {
 							if(w+1>7 || w+1<0 || l-1>7 || l-1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-1,w+1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -347,13 +352,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==0) {
 								if(distance+w>7 || distance+w<0)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 								verified=new moveVerify(l,w,l,w+distance,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -362,13 +367,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==1) {
 							if(w-distance>7 || w-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l,w-distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -377,13 +382,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==2) {
 							if(l+distance>7 || l+distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+distance,w,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -392,13 +397,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==3) {
 							if(l-distance>7 || l-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-distance,w,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -407,13 +412,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==4) {
 							if(l+distance>7 || w+distance>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+distance,w+distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -422,13 +427,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==5) {
 							if(l-distance<0 || l-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-distance,w-distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -437,13 +442,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==6) {
 							if(l+distance>7 || w-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+distance,w-distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -452,13 +457,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==7) {
 							if(w+distance>7 || l-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-distance,w+distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -471,13 +476,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==0) {
 								if(distance+w>7 || distance+w<0)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 								verified=new moveVerify(l,w,l,w+distance,player, bMax);
 								if(verified.getValid()!=true)
 								{
-									generateMove(bMax,player);
+									generateMove(bMax,player,count++);
 									break;
 								}
 
@@ -486,13 +491,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==1) {
 							if(w-distance>7 || w-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l,w-distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -501,13 +506,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==2) {
 							if(l+distance>7 || l+distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+distance,w,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -516,149 +521,131 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==3) {
 							if(l-distance>7 || l-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-distance,w,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
+							generateMove(bMax,player,count++);
 							break;
 						}
-						generateMove(bMax,player);
 						break;
 					case"k":
 						moved=move.nextInt(7);
 						if(moved==0) {
 							if(l+2>7 || w+1>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+2,w+1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==1) {
 							if(l+2>7 || w-1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+2,w-1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==2) {
 							if(l-2<0 || w+1>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-2,w+1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==3) {
 							if(l+2>7 || w-1<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+2,w-1,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==4) {
 							if(l+1>7 || w+2>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+1,w+2,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==5) {
 							if(l+1>7 || w-2<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+1,w-2,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==6) {
 							if(l-1<0 || w+2>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-1,w+2,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 						if(moved==7) {
 							if(l-1>7 || w-2>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-1,w-2,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
 							break;
 						}
 					case"B":
@@ -667,13 +654,13 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==0) {
 							if(l+distance>7 || w+distance>7)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+distance,w+distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 
@@ -682,49 +669,48 @@ public void MiniMax (int levels, boolean playera, Board boarda, Boolean MinMax, 
 						if(moved==1) {
 							if(l-distance<0 || l-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-distance,w-distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
+							generateMove(bMax,player,count++);
 
 							break;
 						}
 						if(moved==2) {
 							if(l+distance>7 || w-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l+distance,w-distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
+							generateMove(bMax,player,count++);
 
 							break;
 						}
 						if(moved==3) {
 							if(w+distance>7 || l-distance<0)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
 							verified=new moveVerify(l,w,l-distance,w+distance,player, bMax);
 							if(verified.getValid()!=true)
 							{
-								generateMove(bMax,player);
+								generateMove(bMax,player,count++);
 								break;
 							}
-							generateMove(bMax,player);
-
+							generateMove(bMax,player,count++);
 							break;
 						}
 						break;
