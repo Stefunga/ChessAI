@@ -176,21 +176,23 @@ public class moveVerify {
 			    }
 		public void checkMate(Boolean color,Board b)
 		{
-			System.out.printf("%nCheckWE!");
+//			System.out.printf("%nCheckWE!"+);
 			int checkMateDone=0;
+//			System.out.printf("%nCheckWE!"+checkMateDone);
 			Board butt=b.boardDuplicate();
 			boolean color2 = color;
-			while(check(!color, butt))	
-			{
-				System.out.printf("%nCheckret!");
-				butt = MinMax.generateMove(b.boardDuplicate(),!color);
-				checkMateDone++;
-				if(checkMateDone==100)
-				{
-					System.out.printf("%nCheckMate!");
-				}
-				System.out.printf("%nbeep!");
-			}
+//			while(check(color, butt))	
+//			{
+////				System.out.printf("%nCheckWE!"+checkMateDone);
+////				System.out.printf("%nCheckret!");
+//				butt = MinMax.generateMove(b.boardDuplicate(),color,0);
+//				checkMateDone++;
+//				if(checkMateDone>100)
+//				{
+//					System.out.printf("%nCheckMate!");
+//				}
+//				System.out.printf("%nbeeper!");
+//			}
 		}
 		public Board changedBoard()
 		{
@@ -381,7 +383,7 @@ public class moveVerify {
 				check=c-1;
 				for(int e=a-1; e>=0;e--)
 				{
-					if(check<0)
+					if(check<0 || check>7 || e<0 || e>7 )
 					{
 						break;
 					}
@@ -557,7 +559,7 @@ public class moveVerify {
 					if(check(white,a)==false)
 					{
 					//	System.out.printf("%nNO CHECK");
-
+						return;
 					}
 					out=a;
 					valid=true;
@@ -784,6 +786,7 @@ public class moveVerify {
 					}
 				}
 				//System.out.printf("%nValid Move");
+				valid=true;
 				Moved(i,j,x,z,b);
 				return;
 				
@@ -803,7 +806,7 @@ public class moveVerify {
 						//break;
 					}
 				}
-				
+					valid=true;
 				//	System.out.printf("%nValid Move");
 					Moved(i,j,x,z,b);
 					return;
@@ -825,6 +828,7 @@ public class moveVerify {
 					//break;
 				}
 			}
+				valid=true;
 				//System.out.printf("%nValid Move");
 				Moved(i,j,x,z,b);
 				return;
@@ -835,8 +839,9 @@ public class moveVerify {
 			}
 		public void moveKnight(int i, int j, int x, int z, Board b)
 		{
-			if(x-i==2 && (z-j==1 || z-j==-1) || x-i==-2 && (z-j==1 || z-j==-1) || z-j==2 && (x-i==1 || x-i==-1) || z-j==-2 && (x-i==1 || x-i==-1))
+			if((x-i==2 && (z-j==1 || z-j==-1))|| (x-i==-2 && (z-j==1 || z-j==-1))|| (z-j==2 && (x-i==1 || x-i==-1)) || (z-j==-2 && (x-i==1 || x-i==-1)))
 			{
+				valid=true;
 				//System.out.printf("valid move");
 				Moved(i,j,x,z,b);
 				return;
@@ -872,15 +877,15 @@ public class moveVerify {
 					{
 						if(check>7 || check<0 || p>7 || p<0)
 						{
-							System.out.printf("Non-Valid Move off board");
+//							System.out.printf("Non-Valid Move off board");
 							valid=false;
 							return;
 							//Valid(out, valid);
 						}
-						System.out.printf("%nThe inner shitee1");
+//						System.out.printf("%nThe inner shitee1");
 						if(b.getPiece(p, check)!=null)//need to make getter setter to access board
 						{
-							System.out.printf("Non-Valid Move Piece in the way");
+//							System.out.printf("Non-Valid Move Piece in the way");
 							valid=false;
 							return;
 							//Valid(out, valid);
@@ -1007,7 +1012,7 @@ public class moveVerify {
 					{
 						if(check>7 || check<0 || p>7 || p<0)
 						{
-							System.out.printf("Non-Valid Move Piece in the way");
+//							System.out.printf("Non-Valid Move Piece in the way");
 							valid=false;
 							return;
 							//Valid(out, valid);
