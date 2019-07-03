@@ -153,13 +153,13 @@ public class moveVerify {
 				if(check(true, b))
 				{
 					White_inCheckScore=50;
-					checkMate(true, b);
+//					checkMate(true, b);
 					
 				}	
 				if(check(false, b))
 				{
 					Black_inCheckScore=50;
-					checkMate(false, b);
+//					checkMate(false, b);
 				}
 				
 				if(p)
@@ -174,26 +174,26 @@ public class moveVerify {
 			    	b.setValue(value);
 			    	return value;
 			    }
-		public void checkMate(Boolean color,Board b)
-		{
-//			System.out.printf("%nCheckWE!"+);
-			int checkMateDone=0;
-//			System.out.printf("%nCheckWE!"+checkMateDone);
-			Board butt=b.boardDuplicate();
-			boolean color2 = color;
-//			while(check(color, butt))	
-//			{
-////				System.out.printf("%nCheckWE!"+checkMateDone);
-////				System.out.printf("%nCheckret!");
-//				butt = MinMax.generateMove(b.boardDuplicate(),color,0);
-//				checkMateDone++;
-//				if(checkMateDone>100)
-//				{
-//					System.out.printf("%nCheckMate!");
-//				}
-//				System.out.printf("%nbeeper!");
-//			}
-		}
+//		public void checkMate(Boolean color,Board b)
+//		{
+////			System.out.printf("%nCheckWE!"+);
+//			int checkMateDone=0;
+////			System.out.printf("%nCheckWE!"+checkMateDone);
+////			Board butt=b.boardDuplicate();
+//			boolean color2 = color;
+////			while(check(color, butt))	
+////			{
+//////				System.out.printf("%nCheckWE!"+checkMateDone);
+//////				System.out.printf("%nCheckret!");
+////				butt = MinMax.generateMove(b.boardDuplicate(),color,0);
+////				checkMateDone++;
+////				if(checkMateDone>100)
+////				{
+////					System.out.printf("%nCheckMate!");
+////				}
+////				System.out.printf("%nbeeper!");
+////			}
+//		}
 		public Board changedBoard()
 		{
 			//System.out.printf("%nBoard has been changed");
@@ -385,9 +385,9 @@ public class moveVerify {
 				{
 					if(check<0 || check>7 || e<0 || e>7 )
 					{
-						return false;
+						break;
 					}
-					if(b.getPiece(e, check)!=null)
+					if(b.getPiece(e, check)!=null && b.getPiece(e, c)!=null)
 					{
 						if(b.getPiece(e, check).getColor()==color&&(b.getPiece(e, check).getType()!="B" || b.getPiece(e, check).getType()!="Q"))
 						{
