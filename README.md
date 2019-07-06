@@ -2,9 +2,8 @@
 Play chess in your terminal vs simple MinMax Algorithm.
 
 # Motivation
-Was interested in different components of making a chess game, beginning with the core engine. Afterwards added an AI player to 
-compete with.
-v
+Was interested in different components of making a chess game, beginning with the core engine. Afterwards added an AI player to compete with.
+
 # How to use?
   - ## Install the package.
     ```
@@ -15,6 +14,35 @@ v
     ```
     java -jar chess.jar
     ```
-#Code Example
-- Show what the library does as concisely as possible, developers should be able to figure out how your project solves their -- problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and   - concise.
+Code Example
+- # Program built from six main components 
+ - ## Piece.
+ -Component used to set characterisics of pieces.
+ -Ex.
+ ```
+ public class Piece {
+	Boolean black;
+	Boolean first;
+	String type;
+	
+	public Piece()
+	{
+		black=null;
+		first=null;
+	}
+	public void CreatePawn(Boolean b)
+	{
+		black=b;
+		first=true;
+		setType("P");
+		//Pawn p = new Pawn(black);
+		
+	}
+}
+ ```
+ - ## Board.
+ - ## Game.
+ - ## MoveVerify.
+ - ## MinMax.
+ - ## Test.
 
