@@ -16,7 +16,8 @@ Was interested in different components of making a chess game, beginning with th
     ```
 # Playing the game
 ![alt text](https://github.com/Stefunga/ChessAI/blob/master/Screen%20Shot%202019-07-06%20at%2012.30.12%20PM.png)
-Enter location of piece by submitting X press enter, then Y press enter. Next enter the destination location in the same order. X and Y cords can be seen along the sides of the board. The game continues until checkmate where it restarts. 
+
+- Enter location of piece by submitting X press enter, then Y press enter. Next enter the destination location in the same order. X and Y cords can be seen along the sides of the board. The game continues until checkmate where it restarts. 
 # Code Example
 Program built from six main components 
  - ## Piece.
