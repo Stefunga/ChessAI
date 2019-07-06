@@ -21,7 +21,7 @@ Was interested in different components of making a chess game, beginning with th
 # Code Example
 Program built from six main components 
  - ## Piece.
- Component used to set characterisics of pieces.
+ Component used to set characteristics of pieces.
 
  Example of create pawn method.
  ```
@@ -173,7 +173,7 @@ Program built from six main components
  ```
  - ## MinMax.
   The AI Move generation.
-  Example of part of minmax code that pushes down branches and finds best possible move.
+  Example of minmax code that pushes down branches and finds best possible move.
  ```
  		int z=branches;	
 		int y=levels;
