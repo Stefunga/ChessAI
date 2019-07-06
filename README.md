@@ -7,7 +7,9 @@ compete with.
 
 # How to use?
   - ## Install the package.
-
+  ```
+  git clone https://github.com/Stefunga/ChessAI
+  ```
   - ## Compile 
 
   - ## And run
