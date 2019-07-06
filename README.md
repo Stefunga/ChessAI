@@ -14,7 +14,7 @@ Was interested in different components of making a chess game, beginning with th
     ```
     java -jar chess.jar
     ```
-Code Example
+# Code Example
 - # Program built from six main components 
  - ## Piece.
  - Component used to set characterisics of pieces.
