@@ -14,6 +14,8 @@ Was interested in different components of making a chess game, beginning with th
     ```
     java -jar chess.jar
     ```
+# Playing the game
+![alt text](https://github.com/Stefunga/ChessAI/blob/master/Screen%20Shot%202019-07-06%20at%2012.30.12%20PM.png)
 # Code Example
 - Program built from six main components 
  - ## Piece.
