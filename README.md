@@ -18,6 +18,7 @@ Code Example
 - # Program built from six main components 
  - ## Piece.
  -Component used to set characterisics of pieces.
+ 
  -Ex.
  ```
  public class Piece {
