@@ -6,11 +6,11 @@ Was interested in different components of making a chess game, beginning with th
 compete with.
 
 # How to use?
-  ##I nstall the package.
+  - ## Install the package.
 
-  ## Compile 
+  - ## Compile 
 
-  ## And run
+  - ## And run
 
 
 
