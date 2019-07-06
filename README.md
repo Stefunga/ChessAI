@@ -7,12 +7,21 @@ compete with.
 
 # How to use?
   - ## Install the package.
-  ```
-  git clone https://github.com/Stefunga/ChessAI
-  ```
-  - ## Compile 
-
+    ```
+    git clone https://github.com/Stefunga/ChessAI
+    ```
+  - ## Compile in terminal or IDE
+    ```
+    javac Board.java	
+    javac MinMax.java	
+    javac moveVerify.java
+    javac Game.java	
+    javac Piece.java	
+    javac Test.java
+    ```
   - ## And run
 
-
+    ```
+    java Test
+    ```
 
