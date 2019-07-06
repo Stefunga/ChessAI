@@ -15,11 +15,11 @@ Was interested in different components of making a chess game, beginning with th
     java -jar chess.jar
     ```
 # Code Example
-- # Program built from six main components 
+- Program built from six main components 
  - ## Piece.
- - Component used to set characterisics of pieces.
- 
- - Example of create pawn method.
+ Component used to set characterisics of pieces.
+
+ Example of create pawn method.
  ```
  public class Piece {
 	Boolean black;
@@ -42,8 +42,8 @@ Was interested in different components of making a chess game, beginning with th
 }
  ```
  - ## Board.
-  - Board object, 2D array that generates pieces and places them on initial locations. This object gets manipulated 	throughout the game
-  -Example of board creation method.
+   Board object, 2D array that generates pieces and places them on initial locations. This object gets manipulated 	throughout the game
+  Example of board creation method.
   ```
   public void createBoard(){
 		a= new Piece[8][8];
@@ -115,8 +115,8 @@ Was interested in different components of making a chess game, beginning with th
 	}
   ```
  - ## Game.
- - Object that handles switching turns and inputs
- - Example of game constructer.
+  Object that handles switching turns and inputs
+  Example of game constructer.
  ```
  	public Game()
 	{
@@ -125,8 +125,8 @@ Was interested in different components of making a chess game, beginning with th
 	}
  ```
  - ## MoveVerify.
- - Takes an inputed or computer generated move and makes sure it's valid.
- - Example from moveVerify, takes input checks what piece it is then moves to piece method to check if valid.
+  Takes an inputed or computer generated move and makes sure it's valid.
+  Example from moveVerify, takes input checks what piece it is then moves to piece method to check if valid.
  ```
  public moveVerify(int initLocX, int initLocY, int destLocX, int destLocY, boolean white, Board b)
 	{
@@ -168,8 +168,8 @@ Was interested in different components of making a chess game, beginning with th
 	}
  ```
  - ## MinMax.
- - The AI Move generation.
- - Example of part of minmax code that pushes down branches and finds best possible move.
+  The AI Move generation.
+  Example of part of minmax code that pushes down branches and finds best possible move.
  ```
  		int z=branches;	
 		int y=levels;
@@ -226,5 +226,5 @@ Was interested in different components of making a chess game, beginning with th
  
  ```
  - ## Test.
- - Starts the program.
+  Starts the program.
 
